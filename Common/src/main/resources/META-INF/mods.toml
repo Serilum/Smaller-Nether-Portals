@@ -6,7 +6,7 @@ logoFile="icon.png"
 
 [[mods]]
 modId="smallernetherportals"
-version="3.6"
+version="3.7"
 displayName="Smaller Nether Portals"
 displayURL="https://serilum.com/mod/smaller-nether-portals"
 authors="Rick South"
@@ -22,7 +22,7 @@ If you would like to contribute too, check out https://serilum.com/donate. Appre
 [[dependencies.smallernetherportals]]
     modId="collective"
     mandatory=true
-    versionRange="[7.52,)"
+    versionRange="[7.54,)"
     ordering="NONE"
     side="BOTH"
 
