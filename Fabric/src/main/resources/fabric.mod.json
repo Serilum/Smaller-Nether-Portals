@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "smallernetherportals",
+  "version": "3.8",
+
+  "name": "Smaller Nether Portals",
+  "description": "Allows the creation of smaller nether portals, specifically 1x2, 1x3 and 2x2.",
+  "authors": [ "Rick South" ],
+  "contact": {
+    "homepage": "https://serilum.com/mod/smaller-nether-portals",
+    "sources": "https://github.com/Serilum/Smaller-Nether-Portals",
+    "issues": "https://github.com/Serilum/.issue-tracker/labels/Mod:%20Smaller%20Nether%20Portals"
+  },
+
+  "license": "All Right Reserved",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": { "main": [ "com.natamus.smallernetherportals.ModFabric" ] },
+
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric": "*",
+    "minecraft": ">=1.21",
+    "java": ">=21",
+    "collective": ">=7.86"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "Donate <3" : "https://ricksouth.com/donate"
+      }
+    }
+  },
+
+  "contributors": [
+	  " ",
+	  "Thank you very much to my Membership sponsors for supporting the development of this mod!",
+	  " ",
+	  "If you would like to contribute too, check out https://serilum.com/donate.",
+	  " ",
+	  "Membership sponsors:",
+	  " Alister",
+	  " Andrean Olgo",
+	  " aternosorg",
+	  " Cherriesaurus",
+	  " kate1073",
+	  " Michael W. S.",
+	  " Tyler Behl",
+	  " XAgent"
+  ]
+}
