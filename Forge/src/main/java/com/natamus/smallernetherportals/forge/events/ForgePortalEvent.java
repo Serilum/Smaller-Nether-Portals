@@ -10,17 +10,15 @@ import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber
 public class ForgePortalEvent {
 	@SubscribeEvent
-	public void onClick(PlayerInteractEvent.RightClickBlock e) {
+	public static void onClick(PlayerInteractEvent.RightClickBlock e) {
 		PortalEvent.onClick(e.getLevel(), e.getEntity(), e.getHand(), e.getPos(), e.getHitVec());
 	}
 	
 	@SubscribeEvent
-	public void onDimensionChange(PlayerChangedDimensionEvent e) {
+	public static void onDimensionChange(PlayerChangedDimensionEvent e) {
 		Player player = e.getEntity();
 		Level level = player.level();
 		if (level.isClientSide) {
@@ -31,7 +29,7 @@ public class ForgePortalEvent {
 	}
 	
 	@SubscribeEvent
-	public void onPlayerTick(PlayerTickEvent e) {
+	public static void onPlayerTick(PlayerTickEvent e) {
 		Player player = e.player;
 		Level level = player.level();
 		if (level.isClientSide || !e.phase.equals(TickEvent.Phase.START)) {
