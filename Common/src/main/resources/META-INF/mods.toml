@@ -1,28 +1,28 @@
 modLoader="javafml"
 loaderVersion="*"
-license="All rights reserved"
+license="All Rights Reserved"
 issueTrackerURL="https://github.com/Serilum/.issue-tracker/labels/Mod:%20Smaller%20Nether%20Portals"
 logoFile="icon.png"
 
 [[mods]]
 modId="smallernetherportals"
-version="4.0"
+version="4.1"
 displayName="Smaller Nether Portals"
 displayURL="https://serilum.com/mod/smaller-nether-portals"
-authors="Rick South"
+authors="Serilum"
 description='''Allows the creation of smaller nether portals, specifically 1x2, 1x3 and 2x2.
 '''
 credits='''Thank you very much to my Membership sponsors for supporting the development of this mod:  
 
 Andrean Olgo, AnyankaT, aternosorg, Cherriesaurus, Linda Jansen, MWS, Tyler Behl   
 
-If you would like to contribute too, check out https://serilum.com/donate. Appreciate it! <3   
+If you would like to contribute too, check out https://serilum.com/donate Appreciate it! <3   
 '''
 
 [[dependencies.smallernetherportals]]
     modId="collective"
     mandatory=true
-    versionRange="[8.39,)"
+    versionRange="[8.40,)"
     ordering="NONE"
     side="BOTH"
 

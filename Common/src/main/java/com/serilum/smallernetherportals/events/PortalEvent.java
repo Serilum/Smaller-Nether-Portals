@@ -1,7 +1,7 @@
-package com.natamus.smallernetherportals.events;
+package com.serilum.smallernetherportals.events;
 
 import com.natamus.collective.functions.TaskFunctions;
-import com.natamus.smallernetherportals.util.Util;
+import com.serilum.smallernetherportals.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
