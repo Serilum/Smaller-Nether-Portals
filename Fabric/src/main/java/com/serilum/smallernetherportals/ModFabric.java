@@ -1,11 +1,11 @@
-package com.natamus.smallernetherportals;
+package com.serilum.smallernetherportals;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
 import com.natamus.collective.fabric.callbacks.CollectiveBlockEvents;
 import com.natamus.collective.fabric.callbacks.CollectivePlayerEvents;
-import com.natamus.smallernetherportals.events.PortalEvent;
-import com.natamus.smallernetherportals.util.Reference;
+import com.serilum.smallernetherportals.events.PortalEvent;
+import com.serilum.smallernetherportals.util.Reference;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
