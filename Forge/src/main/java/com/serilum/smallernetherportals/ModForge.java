@@ -1,9 +1,9 @@
-package com.natamus.smallernetherportals;
+package com.serilum.smallernetherportals;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
-import com.natamus.smallernetherportals.forge.events.ForgePortalEvent;
-import com.natamus.smallernetherportals.util.Reference;
+import com.serilum.smallernetherportals.forge.events.ForgePortalEvent;
+import com.serilum.smallernetherportals.util.Reference;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -28,7 +28,7 @@ public class ModForge {
 	}
 
 	private void loadComplete(final FMLLoadCompleteEvent event) {
-    	MinecraftForge.EVENT_BUS.register(ForgePortalEvent.class);
+		MinecraftForge.EVENT_BUS.register(ForgePortalEvent.class);
 	}
 
 	private static void setGlobalConstants() {

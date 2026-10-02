@@ -1,4 +1,4 @@
-package com.natamus.smallernetherportals;
+package com.serilum.smallernetherportals;
 
 
 public class ModCommon {

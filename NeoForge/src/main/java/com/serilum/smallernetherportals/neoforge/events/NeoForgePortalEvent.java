@@ -1,17 +1,16 @@
-package com.natamus.smallernetherportals.forge.events;
+package com.serilum.smallernetherportals.neoforge.events;
 
-import com.natamus.smallernetherportals.events.PortalEvent;
+import com.serilum.smallernetherportals.events.PortalEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-public class ForgePortalEvent {
+public class NeoForgePortalEvent {
 	@SubscribeEvent
 	public static void onClick(PlayerInteractEvent.RightClickBlock e) {
 		PortalEvent.onClick(e.getLevel(), e.getEntity(), e.getHand(), e.getPos(), e.getHitVec());
@@ -29,10 +28,10 @@ public class ForgePortalEvent {
 	}
 	
 	@SubscribeEvent
-	public static void onPlayerTick(PlayerTickEvent e) {
-		Player player = e.player;
+	public static void onPlayerTick(PlayerTickEvent.Pre e) {
+		Player player = e.getEntity();
 		Level level = player.level();
-		if (level.isClientSide || !e.phase.equals(TickEvent.Phase.START)) {
+		if (level.isClientSide) {
 			return;
 		}
 		
