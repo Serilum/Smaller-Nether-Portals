@@ -1,4 +1,4 @@
-package com.natamus.smallernetherportals.util;
+package com.serilum.smallernetherportals.util;
 
 import com.natamus.collective.services.Services;
 import net.minecraft.core.BlockPos;

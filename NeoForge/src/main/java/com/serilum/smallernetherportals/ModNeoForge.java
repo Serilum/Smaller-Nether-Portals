@@ -1,9 +1,9 @@
-package com.natamus.smallernetherportals;
+package com.serilum.smallernetherportals;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
-import com.natamus.smallernetherportals.neoforge.events.NeoForgePortalEvent;
-import com.natamus.smallernetherportals.util.Reference;
+import com.serilum.smallernetherportals.neoforge.events.NeoForgePortalEvent;
+import com.serilum.smallernetherportals.util.Reference;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;

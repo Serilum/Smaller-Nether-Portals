@@ -1,6 +1,6 @@
-package com.natamus.smallernetherportals.forge.events;
+package com.serilum.smallernetherportals.forge.events;
 
-import com.natamus.smallernetherportals.events.PortalEvent;
+import com.serilum.smallernetherportals.events.PortalEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
