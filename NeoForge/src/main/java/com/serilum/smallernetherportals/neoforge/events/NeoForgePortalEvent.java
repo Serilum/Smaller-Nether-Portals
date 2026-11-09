@@ -7,15 +7,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 public class NeoForgePortalEvent {
-	@SubscribeEvent
-	public static void onClick(PlayerInteractEvent.RightClickBlock e) {
-		PortalEvent.onClick(e.getLevel(), e.getEntity(), e.getHand(), e.getPos(), e.getHitVec());
-	}
-	
 	@SubscribeEvent
 	public static void onDimensionChange(PlayerChangedDimensionEvent e) {
 		Player player = e.getEntity();
