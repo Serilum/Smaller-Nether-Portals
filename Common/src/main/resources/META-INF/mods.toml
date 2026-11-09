@@ -6,7 +6,7 @@ logoFile="icon.png"
 
 [[mods]]
 modId="smallernetherportals"
-version="4.1"
+version="4.2"
 displayName="Smaller Nether Portals"
 displayURL="https://serilum.com/mod/smaller-nether-portals"
 authors="Serilum"
@@ -14,7 +14,7 @@ description='''Allows the creation of smaller nether portals, specifically 1x2, 
 '''
 credits='''Thank you very much to my Membership sponsors for supporting the development of this mod:  
 
-Andrean Olgo, AnyankaT, aternosorg, Cherriesaurus, Linda Jansen, MWS, Tyler Behl   
+aternosorg, Cherriesaurus, Linda Jansen, MWS, Tyler Behl   
 
 If you would like to contribute too, check out https://serilum.com/donate Appreciate it! <3   
 '''
@@ -23,7 +23,7 @@ If you would like to contribute too, check out https://serilum.com/donate Apprec
     modId="collective"
     type="required"
     mandatory=true
-    versionRange="[8.40,)"
+    versionRange="[8.85,)"
     ordering="NONE"
     side="BOTH"
 
