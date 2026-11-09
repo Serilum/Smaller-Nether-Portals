@@ -1,12 +1,14 @@
 package com.serilum.smallernetherportals.util;
 
+import com.natamus.collective.config.DuskConfigModToggles;
 import com.natamus.collective.services.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.portal.PortalShape;
 
@@ -15,183 +17,93 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Util {
-	public static void processSmallerPortal(Level world, BlockPos pos) {
-		BlockPos bottomleft;
-		String airdirection = "none";
-		Rotation rotation = null;
-		
-		if (isObsidian(world.getBlockState(pos.east()))) {
-			if (isAir(world.getBlockState(pos.west()))) {
-				bottomleft = pos.west();
-				airdirection = "east";
-			}
-			else {
-				bottomleft = pos;
-				rotation = Rotation.CLOCKWISE_180;
-			}
-		}
-		else if (isObsidian(world.getBlockState(pos.west()))) {
-			if (isAir(world.getBlockState(pos.east()))) {
-				airdirection = "east";
-			}
-			else {
-				rotation = Rotation.CLOCKWISE_180;
-			}
-			bottomleft = pos;
-		}
-		else if (isObsidian(world.getBlockState(pos.north()))) {
-			if (isAir(world.getBlockState(pos.south()))) {
-				airdirection = "south";
-			}
-			else {
-				rotation = Rotation.CLOCKWISE_90;
-			}
-			bottomleft = pos;
-		}
-		else if (isObsidian(world.getBlockState(pos.south()))) {
-			if (isAir(world.getBlockState(pos.north()))) {
-				bottomleft = pos.north();
-				airdirection = "south";
-			}
-			else {
-				bottomleft = pos;
-				rotation = Rotation.CLOCKWISE_90;
-			}
-		}
-		else {
+	public static void processSmallerPortal(Level level, BlockPos firePos) {
+		BlockPos bottomPos = getBottomPortalPos(level, firePos);
+		if (!isObsidian(level.getBlockState(bottomPos.below()))) {
 			return;
-		}
-		bottomleft = bottomleft.immutable();
-		
-		int height;
-		if (!isObsidian(world.getBlockState(bottomleft.below()))) {
-			return;
-		}
-		
-		if (isObsidian(world.getBlockState(bottomleft.above(2)))) {
-			height = 2;
-		}
-		else if (isObsidian(world.getBlockState(bottomleft.above(3)))) {
-			height = 3;
-		}
-		else {
-			return;
-		}
-		
-		List<BlockPos> toportals = new ArrayList<BlockPos>();
-		
-		int heighti;
-		for (heighti = height; heighti > 0; heighti--) {
-			toportals.add(bottomleft.above(heighti-1).immutable());
-			if (!airdirection.equals("none")) {
-				if (airdirection.equals("south")) {
-					if (!isObsidian(world.getBlockState(bottomleft.north()))) {
-						break;
-					}
-					
-					Block wblock = world.getBlockState(bottomleft.south()).getBlock();
-					if (isAir(wblock)) {
-						if (!isObsidian(world.getBlockState(bottomleft.south(2)))) {
-							break;
-						}
-						toportals.add(bottomleft.above(heighti-1).south().immutable());
-					}
-					else if (!isObsidian(wblock)) {
-						break;
-					}
-				}
-				else if (airdirection.equals("east")) {
-					if (!isObsidian(world.getBlockState(bottomleft.west()).getBlock())) {
-						break;
-					}
-					
-					Block wblock = world.getBlockState(bottomleft.east()).getBlock();
-					if (isAir(wblock)) {
-						if (!isObsidian(world.getBlockState(bottomleft.east(2)))) {
-							break;
-						}
-						toportals.add(bottomleft.above(heighti-1).east().immutable());
-					}
-					else if (!isObsidian(wblock)) {
-						break;
-					}
-				}
-			}
-			
 		}
 
-		if (heighti == 0) {
-			if (rotation == null) {
-				if (airdirection.equals("east")) {
-					rotation = Rotation.CLOCKWISE_180;
-				}
-				else {
-					rotation = Rotation.CLOCKWISE_90;
-				}
-			}
-			
-			int obsidiancount = 0;
-			
-			for (BlockPos tp0 : toportals) {
-				for (BlockPos tp0around : getBlocksAround(tp0.immutable(), rotation)) {
-					Block tp0block = world.getBlockState(tp0around).getBlock();
-					if (isObsidian(tp0block)) {
-						obsidiancount++;
-					}
-				}
-			}
-			
-			if (toportals.size() == 2) {
-				if (obsidiancount < 6) {
-					return;
-				}
-			}
-			else {
-				if (obsidiancount < 8) {
-					return;
-				}
-			}
-			
-			BlockPos portalpos = null;
-			for (BlockPos tp : toportals) {
-				world.setBlock(tp, Blocks.NETHER_PORTAL.defaultBlockState().rotate(rotation), 2);
-				portalpos = tp;
-			}
-			
-			if (portalpos == null) {
+		for (Axis axis : List.of(Axis.X, Axis.Z)) {
+			List<BlockPos> portalPositions = getSmallerPortalPositions(level, bottomPos, axis);
+			if (isEnclosedByObsidian(level, portalPositions, axis)) {
+				createPortal(level, portalPositions, axis);
 				return;
 			}
-			
-			Axis axis;
-			if (airdirection.equals("east")) {
-				axis = Axis.X;
-			}
-			else {
-				axis = Axis.Z;
-			}
-			
-			PortalShape size = new PortalShape(world, portalpos, axis);
-
-			Services.EVENTTRIGGER.triggerNetherPortalSpawnEvent(world, portalpos, size);
 		}
 	}
-	
-	public static List<BlockPos> getBlocksAround(BlockPos pos, Rotation rot) {
-		List<BlockPos> around = new ArrayList<BlockPos>();
-		BlockPos impos = pos.immutable();
-		
-		around.add(impos.above().immutable());
-		around.add(impos.below().immutable());
-		
-		if (rot.equals(Rotation.CLOCKWISE_90)) {
-			around.add(impos.north().immutable());
-			around.add(impos.south().immutable());
+
+	public static BlockPos getBottomPortalPos(Level level, BlockPos firePos) {
+		BlockPos bottomPos = firePos.immutable();
+		BlockPos lowestPossiblePos = firePos.below(2);
+
+		while (bottomPos.getY() > lowestPossiblePos.getY() && isAir(level.getBlockState(bottomPos.below()))) {
+			bottomPos = bottomPos.below();
 		}
-		else {
-			around.add(impos.east().immutable());
-			around.add(impos.west().immutable());
+
+		return bottomPos;
+	}
+
+	public static List<BlockPos> getSmallerPortalPositions(Level level, BlockPos bottomPos, Axis axis) {
+		BlockPos bottomLeftPos = bottomPos;
+		if (isAir(level.getBlockState(bottomPos.relative(axis, -1)))) {
+			bottomLeftPos = bottomPos.relative(axis, -1);
 		}
-		
+
+		int width = 1;
+		if (isAir(level.getBlockState(bottomLeftPos.relative(axis, 1)))) {
+			width = 2;
+		}
+
+		int height = 2;
+		if (isAir(level.getBlockState(bottomLeftPos.above(2)))) {
+			height = 3;
+		}
+
+		List<BlockPos> portalPositions = new ArrayList<>();
+		for (int column = 0; column < width; column++) {
+			for (int row = 0; row < height; row++) {
+				portalPositions.add(bottomLeftPos.relative(axis, column).above(row));
+			}
+		}
+
+		return portalPositions;
+	}
+
+	public static boolean isEnclosedByObsidian(Level level, List<BlockPos> portalPositions, Axis axis) {
+		for (BlockPos portalPos : portalPositions) {
+			if (!isAir(level.getBlockState(portalPos))) {
+				return false;
+			}
+
+			for (BlockPos aroundPos : getBlocksAround(portalPos, axis)) {
+				if (!portalPositions.contains(aroundPos) && !isObsidian(level.getBlockState(aroundPos))) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public static void createPortal(Level level, List<BlockPos> portalPositions, Axis axis) {
+		BlockState portalState = Blocks.NETHER_PORTAL.defaultBlockState().setValue(NetherPortalBlock.AXIS, axis);
+		for (BlockPos portalPos : portalPositions) {
+			level.setBlock(portalPos, portalState, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+		}
+
+		BlockPos bottomLeftPos = portalPositions.get(0);
+		PortalShape portalShape = new PortalShape(level, bottomLeftPos, axis);
+
+		Services.EVENTTRIGGER.triggerNetherPortalSpawnEvent(level, bottomLeftPos, portalShape);
+	}
+
+	public static List<BlockPos> getBlocksAround(BlockPos pos, Axis axis) {
+		List<BlockPos> around = new ArrayList<>();
+		around.add(pos.above());
+		around.add(pos.below());
+		around.add(pos.relative(axis, 1));
+		around.add(pos.relative(axis, -1));
+
 		return around;
 	}
 	
@@ -266,22 +178,22 @@ public class Util {
 	
 	public static Boolean shouldMakeFront(BlockState bs) {
 		Block block = bs.getBlock();
-		return isAir(block) || block.equals(Blocks.NETHERRACK) || block.equals(Blocks.SOUL_SAND);
+		return isAir(bs) || block.equals(Blocks.NETHERRACK) || block.equals(Blocks.SOUL_SAND);
 	}
 	
 	public static Boolean isObsidian(BlockState bs) {
 		return isObsidian(bs.getBlock());
 	}
 	public static Boolean isObsidian(Block block) {
-		return block.equals(Blocks.OBSIDIAN) || (Services.MODLOADER.isModLoaded("cryingportals") && block.equals(Blocks.CRYING_OBSIDIAN));
+		return block.equals(Blocks.OBSIDIAN) || (block.equals(Blocks.CRYING_OBSIDIAN) && isCryingPortalsEnabled());
+	}
+
+	public static boolean isCryingPortalsEnabled() {
+		return Services.MODLOADER.isModLoaded("cryingportals") && !DuskConfigModToggles.isDisabledSerilumMod("cryingportals");
 	}
 	
 	public static Boolean isAir(BlockState bs) {
-		Block block = bs.getBlock();
-		return block.equals(Blocks.AIR) || block.equals(Blocks.FIRE);
-	}
-	public static Boolean isAir(Block block) {
-		return block.equals(Blocks.AIR) || block.equals(Blocks.FIRE);
+		return bs.isAir() || bs.getBlock() instanceof BaseFireBlock;
 	}
 	
 	public static Boolean isPortalOrObsidian(BlockState bs) {

@@ -4,7 +4,7 @@
   "package": "com.serilum.smallernetherportals.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-
+    "BaseFireBlockMixin"
   ],
   "client": [
   

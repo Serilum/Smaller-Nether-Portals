@@ -8,15 +8,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ForgePortalEvent {
-	@SubscribeEvent
-	public static void onClick(PlayerInteractEvent.RightClickBlock e) {
-		PortalEvent.onClick(e.getLevel(), e.getEntity(), e.getHand(), e.getPos(), e.getHitVec());
-	}
-	
 	@SubscribeEvent
 	public static void onDimensionChange(PlayerChangedDimensionEvent e) {
 		Player player = e.getEntity();
